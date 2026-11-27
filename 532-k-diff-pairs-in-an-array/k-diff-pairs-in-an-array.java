@@ -1,45 +1,26 @@
+import java.util.*;
+
 class Solution {
     public int findPairs(int[] nums, int k) {
 
         if (k < 0) return 0;
 
-        Arrays.sort(nums);
+        HashSet<Integer> set = new HashSet<>();
+        HashSet<Integer> pairs = new HashSet<>();
 
-        int i = 0;
-        int j = 1;
-        int count = 0;
+        for (int num : nums) {
 
-        while (j < nums.length) {
-
-            if (i == j) {
-                j++;
-                continue;
+            if (set.contains(num - k)) {
+                pairs.add(num);
             }
 
-            int diff = nums[j] - nums[i];
-
-            if (diff < k) {
-                j++;
+            if (set.contains(num + k)) {
+                pairs.add(num + k);
             }
-            else if (diff > k) {
-                i++;
-            }
-            else {
-                count++;
 
-                i++;
-                j++;
-
-                while (i < nums.length && nums[i] == nums[i-1]) {
-                    i++;
-                }
-
-                while (j < nums.length && nums[j] == nums[j-1]) {
-                    j++;
-                }
-            }
+            set.add(num);
         }
 
-        return count;
+        return pairs.size();
     }
 }
